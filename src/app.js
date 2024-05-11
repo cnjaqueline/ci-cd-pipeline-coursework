@@ -5,6 +5,8 @@ const port = 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(bodyParser.json())
+
 app.get('/', (req, res) => {
   res.send(`
     <form action="/sum" method="post">
@@ -32,3 +34,6 @@ app.post('/sum', (req, res) => {
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 })
+
+// At the end of the file
+module.exports = app;
