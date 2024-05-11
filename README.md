@@ -1,39 +1,41 @@
 <p align="center">
-  <img width="100px" src="https://cdn-icons-png.flaticon.com/512/1067/1067641.png" align="center" alt="Calculate GitHub Readme Stats Score" />
+  <img width="100px" src="https://cdn-icons-png.flaticon.com/512/564/564429.png" align="center" alt="Calculate GitHub Readme Stats Score" />
   <h2 align="center">Express.js Calculator</h2>
   <p align="center">CI/CD Pipeline with GitHub Actions and Automated Tests</p>
 </p>
 
 
-## 🪐 Overview
-
-This is a simple Express.js application that calculates the sum of two numbers.
-
 ## Built With
 
-[![My Skills](https://skillicons.dev/icons?i=nodejs,express,js,jest,html,github)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=nodejs,express,js,jest,html,github)](https://skillicons.dev)    
+    
+
+## 🪐 Overview
+
+This is a project for a simple Express.js application that calculates the sum of two numbers, containing unit tests and a CI/CD pipeline that runs every time the main branch is pushed.
+
 
 ## 🛠️ Configuration
 
 1. Clone the repository:
 
 ```bash
-> git clone https://github.com/cnjaqueline/ci-cd-pipeline-coursework.git
+git clone https://github.com/cnjaqueline/ci-cd-pipeline-coursework.git
 ```
 2. Install the dependencies:
 ```bash
-> npm install
+npm install
 ```
 ## ⚙ Running the Application
 
 1. Navigate to the source code directory:
 ```bash
-> cd src
+cd src
 ```
 
 2. To start the server, run:
 ```bash
-> node app.js
+node app.js
 ```
 
 The application will be available at http://localhost:3000.
@@ -42,7 +44,7 @@ The application will be available at http://localhost:3000.
 
 To run the tests, use the command:
 ```bash
-> npm test
+npm test
 ```
 
 ## CI/CD Pipeline
