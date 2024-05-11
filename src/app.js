@@ -8,7 +8,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
-  res.send(`
+    res.send(`
     <form action="/sum" method="post">
         <label for="num1">Number 1:</label>
         <input type="number" id="num1" name="num1" required>
@@ -22,18 +22,21 @@ app.get('/', (req, res) => {
 app.post('/sum', (req, res) => {
     const num1 = parseFloat(req.body.num1);
     const num2 = parseFloat(req.body.num2);
-  
+
     if (isNaN(num1) || isNaN(num2)) {
-      res.status(400).send('Invalid numbers');
+        res.status(400).send('Invalid numbers');
     } else {
-      const sum = num1 + num2;
-      res.send(`The sum is ${sum}`);
+        const sum = num1 + num2;
+        res.send(`The sum is ${sum}`);
     }
-  });
+});
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
-})
-
-// At the end of the file
-module.exports = app;
+if (require.main === module) {
+    // This file is run directly, start the server
+    app.listen(port, () => {
+        console.log(`Example app listening on port ${port}`);
+    });
+} else {
+    // This file is required as a module, export the app
+    module.exports = app;
+}
