@@ -1,22 +1,27 @@
 const express = require('express');
+const path = require('path');
 const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
+
+// Serve os arquivos estáticos da pasta "public"
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(bodyParser.json())
 
 app.get('/', (req, res) => {
-    res.send(`
-    <form action="/sum" method="post">
-        <label for="num1">Number 1:</label>
-        <input type="number" id="num1" name="num1" required>
-        <label for="num2">Number 2:</label>
-        <input type="number" id="num2" name="num2" required>
-        <button type="submit">Sum</button>
-    </form>
-  `);
+//     res.send(`
+//     <form action="/sum" method="post">
+//         <label for="num1">Number 1:</label>
+//         <input type="number" id="num1" name="num1" required>
+//         <label for="num2">Number 2:</label>
+//         <input type="number" id="num2" name="num2" required>
+//         <button type="submit">Sum</button>
+//     </form>
+//   `);
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.post('/sum', (req, res) => {
