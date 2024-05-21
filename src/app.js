@@ -1,47 +1,21 @@
+// app.js
 const express = require('express');
 const path = require('path');
 const bodyParser = require('body-parser');
+const routes = require('./routes');
 const app = express();
 const port = 3000;
 
-// Serve os arquivos estáticos da pasta "public"
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
-app.use(bodyParser.json())
-
-app.get('/', (req, res) => {
-//     res.send(`
-//     <form action="/sum" method="post">
-//         <label for="num1">Number 1:</label>
-//         <input type="number" id="num1" name="num1" required>
-//         <label for="num2">Number 2:</label>
-//         <input type="number" id="num2" name="num2" required>
-//         <button type="submit">Sum</button>
-//     </form>
-//   `);
-    res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
-
-app.post('/sum', (req, res) => {
-    const num1 = parseFloat(req.body.num1);
-    const num2 = parseFloat(req.body.num2);
-
-    if (isNaN(num1) || isNaN(num2)) {
-        res.status(400).send('Invalid numbers');
-    } else {
-        const sum = num1 + num2;
-        res.send(`The sum is ${sum}`);
-    }
-});
+app.use('/', routes);
 
 if (require.main === module) {
-    // This file is run directly, start the server
     app.listen(port, () => {
         console.log(`Example app listening on port ${port}`);
     });
 } else {
-    // This file is required as a module, export the app
     module.exports = app;
 }
