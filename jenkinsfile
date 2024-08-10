@@ -2,7 +2,6 @@ pipeline {
     agent any
 
     environment {
-    //     NODE_ENV = 'production'
         APP_NAME = 'express-calculator'
     }
 
@@ -47,6 +46,23 @@ pipeline {
         stage('Test') {
             steps {
                 sh 'npm test'
+            }
+        }
+        
+        stage('Parallel Stages') {
+            parallel {
+                stage('Document Building') {
+                    steps {
+                        sh 'cd docs && make prod'
+                        sh 'rm -rf /docs/${PJ_NAME}'
+                        sh 'mv docs/build/html /docs/${PJ_NAME}'
+                    }
+                }
+                stage('Package Testing') {
+                    steps {
+                        sh 'pytest ./tests --html=test_results.html --self-contained-html'
+                    }
+                }
             }
         }
 
