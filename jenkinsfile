@@ -31,20 +31,9 @@ pipeline {
             }
         }
 
-        stage('Parallel Stages') {
-            parallel {
-                stage('Build Linux') {
-                    agent { label 'linux' }
-                    steps {
-                        sh 'npm run build-linux'
-                    }
-                }
-                stage('Build Windows') {
-                    agent { label 'windows' }
-                    steps {
-                        bat 'npm run build-windows'
-                    }
-                }
+        stage('Deploy') {
+            steps {
+                sh 'npm run deploy'
             }
         }
     }
