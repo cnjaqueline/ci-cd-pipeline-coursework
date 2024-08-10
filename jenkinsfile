@@ -48,7 +48,8 @@ pipeline {
                 stages {
                     stage('Test on NodeJS') {
                         steps {
-                            sh 'nvm use $NODE_VERSION && npm test'
+                            sh 'nvm use $NODE_VERSION'
+                            sh 'npm test'
                         }
                     }
                 }
