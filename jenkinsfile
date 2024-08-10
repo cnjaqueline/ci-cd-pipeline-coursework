@@ -1,0 +1,116 @@
+pipeline {
+    agent any
+
+    environment {
+        NODE_ENV = 'production'
+        APP_NAME = 'express-calculator'
+    }
+
+    options {
+        timeout(time: 1, unit: 'HOURS')
+        buildDiscarder(logRotator(numToKeepStr: '5'))
+    }
+
+    parameters {
+        string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Branch para build')
+        booleanParam(name: 'RUN_TESTS', defaultValue: true, description: 'Executar testes?')
+    }
+
+    triggers {
+        cron('H 2 * * 1-5') // Executa de segunda a sexta às 2h da manhã
+    }
+
+    stages {
+        stage('Input') {
+            steps {
+                script {
+                    def userInput = input(message: 'Continuar com o deploy?', parameters: [booleanParam(defaultValue: true, description: 'Prosseguir?', name: 'PROCEED')])
+                    if (!userInput) {
+                        error("Deploy cancelado pelo usuário.")
+                    }
+                }
+            }
+        }
+
+        stage('Checkout') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Test') {
+            when {
+                expression { return params.RUN_TESTS }
+            }
+            steps {
+                sh 'npm test'
+            }
+        }
+
+        stage('Parallel Stages') {
+            parallel {
+                stage('Build Linux') {
+                    agent { label 'linux' }
+                    steps {
+                        sh 'npm run build-linux'
+                    }
+                }
+                stage('Build Windows') {
+                    agent { label 'windows' }
+                    steps {
+                        bat 'npm run build-windows'
+                    }
+                }
+            }
+        }
+
+        stage('Deploy') {
+            when {
+                equals expected: 'main', actual: params.BRANCH_NAME
+            }
+            steps {
+                script {
+                    withCredentials([string(credentialsId: 'DEPLOY_CREDENTIALS', variable: 'TOKEN')]) {
+                        sh 'npm run deploy --token $TOKEN'
+                    }
+                }
+            }
+        }
+
+        stage('Matrix Build') {
+            matrix {
+                axes {
+                    axis {
+                        name 'NODE_VERSION'
+                        values '14', '16', '18'
+                    }
+                }
+                stages {
+                    stage('Test on NodeJS') {
+                        steps {
+                            sh 'nvm use $NODE_VERSION && npm test'
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Pipeline finalizado.'
+        }
+        success {
+            echo 'Pipeline concluído com sucesso!'
+        }
+        failure {
+            echo 'Pipeline falhou.'
+        }
+    }
+}
