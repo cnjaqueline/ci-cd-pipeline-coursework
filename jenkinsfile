@@ -18,10 +18,6 @@ pipeline {
     triggers {
         cron('H 2 * * 1-5') // Executa de segunda a sexta às 2h da manhã
     }
-
-    stages {
-        
-    }
     
     stages {
         stage('Input') {
