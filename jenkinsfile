@@ -1,10 +1,10 @@
 pipeline {
     agent any
 
-    // environment {
-    //     NODE_ENV = 'production'
-    //     APP_NAME = 'express-calculator'
-    // }
+    environment {
+        NODE_ENV = 'production'
+        APP_NAME = 'express-calculator'
+    }
 
     // options {
     //     timeout(time: 1, unit: 'HOURS')
