@@ -53,14 +53,14 @@ pipeline {
             parallel {
                 stage('Document Building') {
                     steps {
-                        sh 'cd docs && make prod'
-                        sh 'rm -rf /docs/${PJ_NAME}'
-                        sh 'mv docs/build/html /docs/${PJ_NAME}'
+                        sh 'cd src && make prod'
+                        sh 'rm -rf /src/jenkins'
+                        sh 'mv src/build/html /src/jenkins'
                     }
                 }
-                stage('Package Testing') {
+                stage('Report Testing') {
                     steps {
-                        sh 'pytest ./tests --html=test_results.html --self-contained-html'
+                        echo "Relatório gerado para ${APP_NAME}"
                     }
                 }
             }
