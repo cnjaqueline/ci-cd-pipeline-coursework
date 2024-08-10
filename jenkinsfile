@@ -2,16 +2,16 @@ pipeline {
     agent any
 
     stages {
-        stage('Input') {
-            steps {
-                script {
-                    def userInput = input(message: 'Continuar com o deploy?', parameters: [booleanParam(defaultValue: true, description: 'Prosseguir?', name: 'PROCEED')])
-                    if (!userInput) {
-                        error("Deploy cancelado pelo usuário.")
-                    }
-                }
-            }
-        }
+        // stage('Input') {
+        //     steps {
+        //         script {
+        //             def userInput = input(message: 'Continuar com o deploy?', parameters: [booleanParam(defaultValue: true, description: 'Prosseguir?', name: 'PROCEED')])
+        //             if (!userInput) {
+        //                 error("Deploy cancelado pelo usuário.")
+        //             }
+        //         }
+        //     }
+        // }
 
         stage('Checkout') {
             steps {
@@ -22,6 +22,12 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 sh 'npm ci'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'npm test'
             }
         }
     }
