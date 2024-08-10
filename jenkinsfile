@@ -65,6 +65,9 @@ pipeline {
         }
 
         stage('Deploy') {
+            when {
+                equals expected: 'main', actual: params.BRANCH_NAME
+            }
             steps {
                 sh 'npm run deploy'
             }
