@@ -57,4 +57,16 @@ pipeline {
             }
         }
     }
+
+    post {
+        always {
+            echo 'Pipeline finalizado.'
+        }
+        success {
+            echo 'Pipeline concluído com sucesso!'
+        }
+        failure {
+            echo 'Pipeline falhou.'
+        }
+    }
 }
