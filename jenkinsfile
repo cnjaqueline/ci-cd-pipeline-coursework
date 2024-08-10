@@ -18,18 +18,22 @@ pipeline {
     triggers {
         cron('H 2 * * 1-5') // Executa de segunda a sexta às 2h da manhã
     }
+
+    stages {
+        
+    }
     
     stages {
-        // stage('Input') {
-        //     steps {
-        //         script {
-        //             def userInput = input(message: 'Continuar com o deploy?', parameters: [booleanParam(defaultValue: true, description: 'Prosseguir?', name: 'PROCEED')])
-        //             if (!userInput) {
-        //                 error("Deploy cancelado pelo usuário.")
-        //             }
-        //         }
-        //     }
-        // }
+        stage('Input') {
+            steps {
+                script {
+                    def userInput = input(message: 'Continuar com o deploy?', parameters: [booleanParam(defaultValue: true, description: 'Prosseguir?', name: 'PROCEED')])
+                    if (!userInput) {
+                        error("Deploy cancelado pelo usuário.")
+                    }
+                }
+            }
+        }
 
         stage('Checkout') {
             steps {
@@ -53,12 +57,12 @@ pipeline {
             parallel {
                 stage('Document Building') {
                     steps {
-                        sh 'sleep 20'
+                        echo "Documentação gerada com sucesso."
                     }
                 }
                 stage('Report Testing') {
                     steps {
-                        sh 'sleep 20'
+                        echo "Relatório gerado com sucesso."
                     }
                 }
             }
