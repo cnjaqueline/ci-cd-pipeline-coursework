@@ -11,10 +11,10 @@ pipeline {
     //     buildDiscarder(logRotator(numToKeepStr: '5'))
     // }
 
-    // parameters {
-    //     string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Branch para build')
-    //     booleanParam(name: 'RUN_TESTS', defaultValue: true, description: 'Executar testes?')
-    // }
+    parameters {
+        string(name: 'BRANCH_NAME', defaultValue: 'main', description: 'Branch para build')
+        booleanParam(name: 'RUN_TESTS', defaultValue: true, description: 'Executar testes?')
+    }
 
     triggers {
         cron('H 2 * * 1-5') // Executa de segunda a sexta às 2h da manhã
