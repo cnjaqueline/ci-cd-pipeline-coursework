@@ -36,5 +36,23 @@ pipeline {
                 sh 'npm run deploy'
             }
         }
+
+        stage('Matrix Build') {
+            matrix {
+                axes {
+                    axis {
+                        name 'NODE_VERSION'
+                        values '14', '16', '18'
+                    }
+                }
+                stages {
+                    stage('Test on NodeJS') {
+                        steps {
+                            sh 'nvm use $NODE_VERSION && npm test'
+                        }
+                    }
+                }
+            }
+        }
     }
 }
