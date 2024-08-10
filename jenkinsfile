@@ -53,12 +53,12 @@ pipeline {
             parallel {
                 stage('Document Building') {
                     steps {
-                        echo "Documentação gerada com sucesso."
+                        sh 'sleep 20'
                     }
                 }
                 stage('Report Testing') {
                     steps {
-                        echo "Relatório gerado com sucesso."
+                        sh 'sleep 20'
                     }
                 }
             }
